@@ -6,7 +6,7 @@ title: Integration Tests made easy (and automated)
 In the dark ages of software development those who wanted to test their pile of code against a database or remote systems had to put a lot of effort in that.  
 Building a VM from an image, installing all the stuff they needed and give to admin so it could be hosted on server, also hoping that no colleague would leave the VM in an unusable state.    
 Nowadays we have it a lot easier than that. Thanks to our modern tools we can easily put together a VM with all the things we need for our own, test against it and than start all over in a proper time.
-Nonetheless I still see sometimes colleagues fighting about the ownership of a VM or hesitate when it comes to do an integration test.  
+Nonetheless I still see sometimes colleagues fighting about the ownership of a VM or hesitate when it comes to establish integration testing.  
 This is why I wrote this article. You'll find the complete source code at [GitHub](https://github.com/marcuslang/persistence-perf-test).
 
 #### goal
@@ -21,7 +21,7 @@ In order to achive that goal we will let
 [Vagrant](https://www.vagrantup.com/) needs to be installed on your system. It will also need a provider like [VirtualBox](https://www.virtualbox.org/) or [VMWare](http://www.vmware.com/).
 [Ansible](https://www.ansible.com/) will do the provision of the system. Since it lacks native support for Windows, we will let Vagrant install Ansible as a local provisioner on the VM. 
 This will start us a VM that will be provisioned via Ansible.  
-```xml
+```
 Vagrant.configure("2") do |config|
 
   config.vm.define "postgresql" do |postgresql|
@@ -70,7 +70,7 @@ Basically the YAML file tells Ansible to become superuser on host *postgresql* a
 #### the exec plugin part
 [Exec-Maven-Plugin:](http://www.mojohaus.org/exec-maven-plugin/) This Maven plugin is great for executing external programs. In our example it starts and stops (more destroys) the Vagrant VM in the pre- and post-integration-test phase of Maven.
 First execution will create and provision the VM, while the second will destroy the VM. Therefore we will have a fresh VM every time we start our tests. 
-````xml
+```XML
 <plugin> <!-- start / stop our vm -->
         <artifactId>exec-maven-plugin</artifactId>
         <groupId>org.codehaus.mojo</groupId>
@@ -109,14 +109,14 @@ First execution will create and provision the VM, while the second will destroy 
           </execution>
         </executions>
       </plugin>
-````
+```
 
 #### the failsafe plugin part
 Now to the Maven plugin that takes care of executing all integration tests. The configuration below looks for test classes in packages containing *integration* in the path. Those tests will be run in the integration-test phase of Maven. 
 Additionally I've set the jdbc connection information as system properties for an easier access inside the tests. 
 In case you want to know why failsafe and not surefire: Surefire would stop if any test fails, that great for unit tests because we want fast feedback. But here we want to make sure that our VM is destroyed at the end, leaving a clean space.
 Failsafe will run every test defined, if some of them fail it will still go through till the end.
-````xml
+```XML
  <plugin> <!-- run the integration test -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
@@ -151,7 +151,7 @@ Failsafe will run every test defined, if some of them fail it will still go thro
           </execution>
         </executions>
       </plugin>
-````
+```
 
 ### recap
 I'll hope this article got you an overview how to test your code against a fully automated test environment. 
