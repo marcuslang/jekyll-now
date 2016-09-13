@@ -3,10 +3,10 @@ layout: post
 title: Integration Tests made easy (and automated)
 ---
 
-In the dark ages of software development those who wanted to test their pile of code against a database or remote systems had to put a lot of effort in that.
-Building a VM from an image, installing all the stuff they needed and give to admin so it could be hosted on server, also hoping that no colleague would leave the VM in an unusable state.  
+In the dark ages of software development those who wanted to test their pile of code against a database or remote systems had to put a lot of effort in that.  
+Building a VM from an image, installing all the stuff they needed and give to admin so it could be hosted on server, also hoping that no colleague would leave the VM in an unusable state.    
 Nowadays we have it a lot easier than that. Thanks to our modern tools we can easily put together a VM with all the things we need for our own, test against it and than start all over in a proper time.
-Nonetheless I still see sometimes colleagues fighting about the ownership of a VM or hesitate when it comes to do an integration test.
+Nonetheless I still see sometimes colleagues fighting about the ownership of a VM or hesitate when it comes to do an integration test.  
 This is why I wrote this article. You'll find the complete source code at [GitHub](https://github.com/marcuslang/persistence-perf-test).
 
 #### goal
