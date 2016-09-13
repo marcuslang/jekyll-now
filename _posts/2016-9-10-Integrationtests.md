@@ -1,4 +1,7 @@
-# Integrationtests made easy (and automated)
+---
+layout: post
+title: Integration Tests made easy (and automated)
+---
 
 In the dark ages of software development those who wanted to test their pile of code against a database or remote systems had to put a lot of effort in that.
 Building a VM from an image, installing all the stuff they needed and give to admin so it could be hosted on server, also hoping that no colleague would leave the VM in an unusable state.  
@@ -6,7 +9,7 @@ Nowadays we have it a lot easier than that. Thanks to our modern tools we can ea
 Nonetheless I still see sometimes colleagues fighting about the ownership of a VM or hesitate when it comes to do an integration test.
 This is why I wrote this article. You'll find the complete source code at [GitHub](https://github.com/marcuslang/persistence-perf-test).
 
-## goal
+#### goal
 What I want you to show is how to automate your integration testing with tools taking care of starting, preparing and cleaning VMs for you. At the end we will have a test that runs against a freshly installed PostGreSQL DB on a VM with all the data we needed in the DB.  
 In order to achive that goal we will let
  * Vagrant control the VM
