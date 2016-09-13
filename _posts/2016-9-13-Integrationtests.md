@@ -21,6 +21,7 @@ In order to achive that goal we will let
 [Vagrant](https://www.vagrantup.com/) needs to be installed on your system. It will also need a provider like [VirtualBox](https://www.virtualbox.org/) or [VMWare](http://www.vmware.com/).
 [Ansible](https://www.ansible.com/) will do the provision of the system. Since it lacks native support for Windows, we will let Vagrant install Ansible as a local provisioner on the VM. 
 This will start us a VM that will be provisioned via Ansible.  
+
 ```
 Vagrant.configure("2") do |config|
 
@@ -47,6 +48,7 @@ database dump from [PgFoundry](http://pgfoundry.org/frs/shownotes.php?release_id
 I don't want to go into much more detail about how these roles do their thing at this time, but if you want to take a closer look go to my repository at GitHub.
 
 Basically the YAML file tells Ansible to become superuser on host *postgresql* and then do an update. After that it will start with the roles. The configuration of user, password or database name is configured outside of the roles in **vars_files**.
+
 ```yaml
 - hosts: postgresql
   become: True
@@ -67,10 +69,11 @@ Basically the YAML file tells Ansible to become superuser on host *postgresql* a
   - role: database_init
 ```
 
-#### the exec plugin part
+#### the exec part
 [Exec-Maven-Plugin:](http://www.mojohaus.org/exec-maven-plugin/) This Maven plugin is great for executing external programs. In our example it starts and stops (more destroys) the Vagrant VM in the pre- and post-integration-test phase of Maven.
 First execution will create and provision the VM, while the second will destroy the VM. Therefore we will have a fresh VM every time we start our tests. 
-```XML
+
+```xml
 <plugin> <!-- start / stop our vm -->
         <artifactId>exec-maven-plugin</artifactId>
         <groupId>org.codehaus.mojo</groupId>
@@ -111,12 +114,13 @@ First execution will create and provision the VM, while the second will destroy 
       </plugin>
 ```
 
-#### the failsafe plugin part
+#### the failsafe part
 Now to the Maven plugin that takes care of executing all integration tests. The configuration below looks for test classes in packages containing *integration* in the path. Those tests will be run in the integration-test phase of Maven. 
 Additionally I've set the jdbc connection information as system properties for an easier access inside the tests. 
 In case you want to know why failsafe and not surefire: Surefire would stop if any test fails, that great for unit tests because we want fast feedback. But here we want to make sure that our VM is destroyed at the end, leaving a clean space.
 Failsafe will run every test defined, if some of them fail it will still go through till the end.
-```XML
+
+```xml
  <plugin> <!-- run the integration test -->
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-failsafe-plugin</artifactId>
